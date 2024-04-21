@@ -36,7 +36,7 @@ This project is a Python-based web application developed using the Flask micro-f
 
 ## Tests
 
-For the purposes of testing I was provided with a checker from the university which sends a large amount of requests to check the correct functionality of the multithreaded component and make sure the return values are all in order
+For the purposes of testing I was provided with a checker from the university which sends a large amount of requests to check the correct functionality of the multithreaded component and make sure the return values are all in order.
 
 ### Setup and Run
 
