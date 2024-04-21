@@ -10,10 +10,6 @@ This project is a Python-based web application developed using the Flask micro-f
   
 - **Statistical Analysis**: Offers functionalities such as retrieving mean values, top/bottom states, and category-wise mean values for health metrics.
 
-## Dependencies
-
-- Flask micro-framework
-
 ## Usage
 
 ### API Endpoints
