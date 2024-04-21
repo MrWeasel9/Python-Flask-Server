@@ -1,0 +1,47 @@
+Tema 1 ASC - Valeanu Mihai-Radu 332CB
+
+O sa descriu implementarea temei fisier cu fisier:
+
+-> __init__.py:
+Aici imi instantiez obiectul ThreadPool() si pornesc threadu-urile din task_runner.
+Tot aici imi fac si logger-ul pentru a verifica functionalitatea serverului.
+Il configurez cu nivelul de info, si cu formatul LOG_FORMAT. Ca handler folosesc un
+RotatingFileHandler, apoi il adaug la webserver.
+
+-> data_ingestor.py:
+Am decis sa folosesc pandas pentru a interpreta setul de date cu pd.read_csv
+
+-> task.py:
+Mi-am facut clase diferite pentru fiecare Task diferit din cerinta:
+La toate taskurile am un constructor cu fieldurile necesare taskului si
+metoda execute in care verific ca intrebarea este potrivita si calculez mediile
+
+-> routes.py:
+
+Metodele de GET: 
+get_results: verific daca id-ul primit este in executie sau s-a terminat
+get_jobs: imi intoarce o lista jsonified a joburilor
+get_num_jobs: intoarce qsize-ul queue-ul de taskuri in executie
+graceful_shutdown: initiaza metoda de stop din task_runner
+
+Metodele de POST:
+La toate imi iau data din requestul json, instantiez taskul corespunzator
+si il adaug in coada de taskuri; add_task imi returneaza id-ul jobului respectiv
+pe care il intorc ca raspuns la cerere
+
+-> task_runner.py:
+Am doua clase: ThreadPool si ThreadRunner
+
+-ThreadPool: In aceasta clasa imi obtin numarul de threaduri alea sistemului,
+imi creez un python Queue, care este thread-safe si o lista de threaduri ce au
+de executat obiecte de tip TaskRunner. Cu metoda add_task adaug in queue un nou job
+si incrementez id-ul, iar in start imi pornesc threadurile si in stop le opresc.
+
+-TaskRunner: In aceasta clasa am o bucla while care constant incearca sa scoata
+joburi din Queue cat timp graceful_shutdown nu a fost initiat si executa taskurile resp.
+Folosind un dictionar imi salvez rezultatul pe care il va returna functia get_results/<job_id>. In functia save_result imi scriu in folderul results in fisierele de tip 
+<job_id>.json rezultatul jsonified.
+Pentru a opri rularea threadurilor am un Event() graceful_shutdown care este setat in functia stop,
+cu el opresc rularea threadurilor.
+ 
+Partea de unittest nu am apucat sa o fac.
